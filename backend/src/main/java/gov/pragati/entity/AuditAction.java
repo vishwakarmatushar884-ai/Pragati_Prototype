@@ -1,0 +1,17 @@
+package gov.pragati.entity;
+
+public enum AuditAction {
+    LOGIN,
+    CREATE_PROJECT,
+    UPDATE_PROJECT,
+    UPDATE_PROGRESS,
+    CREATE_ISSUE,
+    UPDATE_ISSUE,
+    RESOLVE_ISSUE,
+    CREATE_ALERT,
+    ACKNOWLEDGE_ALERT,
+    ESCALATE_ALERT,
+    CHANGE_RISK,
+    GENERATE_REPORT,
+    UPDATE_SETTINGS
+}
