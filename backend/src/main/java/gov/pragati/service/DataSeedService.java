@@ -66,9 +66,17 @@ public class DataSeedService implements CommandLineRunner {
         this.passwordEncoder = passwordEncoder;
     }
 
+    @org.springframework.beans.factory.annotation.Value("${app.seed.enabled:true}")
+    private boolean seedEnabled;
+
     @Override
     @Transactional
     public void run(String... args) {
+        if (!seedEnabled) {
+            log.info("Database seeding disabled via app.seed.enabled=false");
+            return;
+        }
+
         if (roleRepository.count() > 0 && projectRepository.count() > 0) {
             log.info("Database already seeded with demo projects and accounts.");
             return;

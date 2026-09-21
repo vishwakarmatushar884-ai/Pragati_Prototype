@@ -1,0 +1,15 @@
+PRAGATI Platform has been deployed successfully!
+
+1. Get the application URL:
+{{- if .Values.ingress.enabled }}
+  https://{{ (index .Values.ingress.hosts 0).host }}
+{{- else }}
+  kubectl port-forward svc/{{ include "pragati.fullname" . }}-frontend 8080:80 -n {{ .Release.Namespace }}
+  Visit: http://localhost:8080
+{{- end }}
+
+2. Check deployment status:
+  kubectl get pods -n {{ .Release.Namespace }} -l app.kubernetes.io/part-of=pragati-platform
+
+3. Check API health:
+  curl http://<INGRESS_OR_IP>/actuator/health

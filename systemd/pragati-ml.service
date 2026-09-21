@@ -1,0 +1,19 @@
+[Unit]
+Description=PRAGATI AI/ML Risk & Delay Prediction Engine
+After=network.target
+
+[Service]
+Type=simple
+User=pragati
+Group=pragati
+WorkingDirectory=/opt/pragati/ml-service
+Environment="PATH=/opt/pragati/ml-service/venv/bin:/usr/local/bin:/usr/bin"
+EnvironmentFile=/opt/pragati/.env
+ExecStart=/opt/pragati/ml-service/venv/bin/uvicorn main:app --host 0.0.0.0 --port 8000 --workers 2
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

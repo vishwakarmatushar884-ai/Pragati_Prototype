@@ -1,0 +1,20 @@
+[Unit]
+Description=PRAGATI Spring Boot Core Backend Service
+After=network.target postgresql.service pragati-ml.service
+Wants=postgresql.service pragati-ml.service
+
+[Service]
+Type=simple
+User=pragati
+Group=pragati
+WorkingDirectory=/opt/pragati/backend
+EnvironmentFile=/opt/pragati/.env
+ExecStart=/usr/bin/java -XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0 -jar /opt/pragati/backend/target/pragati-backend-1.0.0-SNAPSHOT.jar
+SuccessExitStatus=143
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

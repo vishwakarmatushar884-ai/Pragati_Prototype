@@ -1,0 +1,97 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: pragati-backend
+  namespace: pragati
+  labels:
+    app.kubernetes.io/name: pragati-backend
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      targetPort: 8080
+      name: http
+  selector:
+    app: pragati-backend
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pragati-backend
+  namespace: pragati
+  labels:
+    app.kubernetes.io/name: pragati-backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: pragati-backend
+  template:
+    metadata:
+      labels:
+        app: pragati-backend
+    spec:
+      containers:
+        - name: backend
+          image: ghcr.io/pragati/backend:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+              name: http
+          envFrom:
+            - configMapRef:
+                name: pragati-config
+            - secretRef:
+                name: pragati-secrets
+          env:
+            - name: JAVA_OPTS
+              value: "-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0"
+          resources:
+            requests:
+              cpu: 500m
+              memory: 1024Mi
+            limits:
+              cpu: 2000m
+              memory: 2048Mi
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 5
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8080
+            initialDelaySeconds: 40
+            periodSeconds: 15
+            timeoutSeconds: 5
+            failureThreshold: 5
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: pragati-backend-hpa
+  namespace: pragati
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: pragati-backend
+  minReplicas: 2
+  maxReplicas: 8
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 75
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 80

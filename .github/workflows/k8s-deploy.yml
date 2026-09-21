@@ -1,0 +1,35 @@
+name: PRAGATI Kubernetes CD Pipeline
+
+on:
+  workflow_run:
+    workflows: ["Docker Build & Security Scan"]
+    types:
+      - completed
+    branches: [ main ]
+
+jobs:
+  deploy-to-cluster:
+    name: Deploy to Kubernetes Cluster
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Kubeconfig
+        if: env.KUBECONFIG_DATA != ''
+        run: |
+          mkdir -p ~/.kube
+          echo "${{ secrets.KUBECONFIG_DATA }}" | base64 -d > ~/.kube/config
+        env:
+          KUBECONFIG_DATA: ${{ secrets.KUBECONFIG_DATA }}
+
+      - name: Apply Kubernetes Manifests via Kustomize
+        if: env.KUBECONFIG_DATA != ''
+        run: |
+          kubectl apply -k k8s/
+          kubectl rollout status deployment/pragati-backend -n pragati --timeout=180s
+          kubectl rollout status deployment/pragati-frontend -n pragati --timeout=120s
+          kubectl rollout status deployment/pragati-ml-service -n pragati --timeout=120s
+        env:
+          KUBECONFIG_DATA: ${{ secrets.KUBECONFIG_DATA }}

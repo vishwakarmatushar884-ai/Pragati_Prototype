@@ -152,13 +152,40 @@ npm run dev
 
 ---
 
-## 🐳 Docker Multi-Container Deployment
+## 🐳 Production & Enterprise Deployment
 
-To spin up the complete 4-tier stack (PostgreSQL + ML Service + Spring Boot + React Nginx):
+The PRAGATI platform is fully configured for high-availability production deployment across Docker, Kubernetes, Linux VPS, and Cloud environments (AWS, GCP, Azure).
+
+### Option 1: 1-Command Production Deployment (Docker Compose)
 ```bash
-docker-compose up --build -d
+# Production zero-downtime deployment script with automatic pre-flight & health checks
+chmod +x scripts/deploy.sh
+./scripts/deploy.sh
+
+# Or using Makefile
+make docker-up
 ```
-Access the application at `http://localhost`.
+- **Frontend Portal**: `http://localhost` (or `http://YOUR_SERVER_IP`)
+- **Backend API**: `http://localhost:8080/api` (Swagger: `http://localhost:8080/swagger-ui.html`)
+- **ML Microservice**: `http://localhost:8000/docs`
+- **Health Probes**: `http://localhost:8080/actuator/health`
+
+### Option 2: Production Nginx Reverse Proxy with SSL/TLS
+```bash
+docker compose -f docker-compose.prod.yml up --build -d
+```
+
+### Option 3: Kubernetes Deployment (Kustomize & Helm)
+```bash
+# 1-Command Kustomize deploy
+kubectl apply -k k8s/
+
+# Or using Helm
+helm upgrade --install pragati ./helm/pragati --namespace pragati --create-namespace
+```
+
+### 📖 Comprehensive Deployment Guide
+For detailed instructions on AWS ECS/EKS, GCP Cloud Run/GKE, Azure AKS, Systemd services, Let's Encrypt SSL, PostgreSQL automated backups, and Prometheus monitoring, see [**`DEPLOYMENT.md`**](file:///d:/pragati/DEPLOYMENT.md).
 
 ---
 

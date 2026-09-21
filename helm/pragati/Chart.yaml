@@ -1,0 +1,16 @@
+apiVersion: v2
+name: pragati
+description: PRAGATI - AI-Powered Integrated Project Monitoring Platform for Government of India
+type: application
+version: 1.0.0
+appVersion: "1.0.0"
+maintainers:
+  - name: Cabinet Secretariat / NIC / Ministry of Electronics & IT
+    email: support@pragati.gov.in
+keywords:
+  - infrastructure
+  - project-monitoring
+  - explainable-ai
+  - spring-boot
+  - react
+  - python
