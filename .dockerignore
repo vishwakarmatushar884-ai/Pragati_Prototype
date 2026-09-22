@@ -1,0 +1,15 @@
+node_modules
+**/node_modules
+dist
+**/dist
+target
+**/target
+.git
+.github
+.vscode
+.idea
+*.log
+*.tmp
+.env
+.env.local
+.env.*.local

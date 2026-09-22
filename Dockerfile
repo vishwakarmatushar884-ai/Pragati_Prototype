@@ -6,14 +6,20 @@
 # Stage 1: Build React Frontend
 FROM node:20-alpine AS frontend-builder
 WORKDIR /app/frontend
+
+# Install dependencies first
 COPY frontend/package*.json ./
-RUN npm install
+RUN npm ci || npm install
+
+# Copy source and build (permissions guarded)
 COPY frontend/ ./
+RUN chmod -R +x node_modules/.bin || true
 RUN npm run build
 
 # Stage 2: Build Spring Boot Backend with embedded static frontend assets
 FROM maven:3.9.6-eclipse-temurin-21-alpine AS backend-builder
 WORKDIR /app/backend
+
 COPY backend/pom.xml .
 RUN mvn dependency:go-offline -B
 
