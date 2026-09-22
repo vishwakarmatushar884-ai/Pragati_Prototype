@@ -55,6 +55,8 @@ public class SecurityConfig {
             .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                .requestMatchers("/", "/index.html", "/assets/**", "/favicon.ico", "/*.*", "/error").permitAll()
+                .requestMatchers("/login", "/dashboard", "/projects/**", "/map", "/risk", "/alerts", "/issues", "/reports", "/audit", "/settings").permitAll()
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/h2-console/**").permitAll()
                 .requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**").permitAll()
@@ -64,7 +66,8 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.PUT, "/api/settings/**").hasAnyRole("SUPER_ADMIN", "MINISTRY_ADMIN")
                 .requestMatchers("/api/audit/**").hasAnyRole("SUPER_ADMIN", "MINISTRY_ADMIN", "AUDITOR")
                 
-                .anyRequest().authenticated()
+                .requestMatchers("/api/**").authenticated()
+                .anyRequest().permitAll()
             );
 
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
