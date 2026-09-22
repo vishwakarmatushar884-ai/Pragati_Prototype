@@ -1,17 +1,19 @@
 # ==============================================================================
 # PRAGATI - Render Deployment Blueprint (render.yaml)
 # ==============================================================================
-# Official Blueprint Specification for Render Static Site Deployment (Zero-Docker)
 # Documentation: https://render.com/docs/blueprint-spec
 
 services:
-  # 1. PRAGATI Frontend Static Site
   - type: web
     name: pragati-portal
     runtime: static
-    buildCommand: cd frontend && npm install && npm run build
-    staticPublishPath: ./frontend/dist
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
     pullRequestPreviewsEnabled: false
+    envVars:
+      - key: NODE_VERSION
+        value: 20.18.0
     routes:
       - type: rewrite
         source: /*

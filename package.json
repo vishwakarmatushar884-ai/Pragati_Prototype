@@ -1,0 +1,11 @@
+{
+  "name": "pragati-root",
+  "private": true,
+  "scripts": {
+    "build": "npm --prefix frontend install && npm --prefix frontend run build",
+    "start": "npm --prefix frontend run dev"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
