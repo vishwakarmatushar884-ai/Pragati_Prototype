@@ -176,7 +176,7 @@ export const LoginPage: React.FC = () => {
                       required
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      placeholder="e.g. admin@pragati.demo"
+                      placeholder="e.g. admin@pragati.gov.in"
                       className="w-full bg-slate-900 border border-slate-700/80 rounded-xl pl-9 pr-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                     />
                   </div>
@@ -207,12 +207,12 @@ export const LoginPage: React.FC = () => {
                 </button>
               </form>
 
-              {/* Demo Accounts Quick Selection */}
+              {/* Authorized Portals Quick Selection */}
               <div className="mt-6 pt-5 border-t border-slate-800">
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-[11px] font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
                     <Sparkles className="w-3.5 h-3.5" />
-                    1-Click National Demo Roles
+                    Authorized Portals (Select Role)
                   </span>
                 </div>
 
@@ -235,10 +235,6 @@ export const LoginPage: React.FC = () => {
                     </button>
                   ))}
                 </div>
-
-                <p className="text-[10px] text-slate-500 italic mt-2.5 text-center">
-                  All demo accounts use the same password: Demo@123
-                </p>
               </div>
             </div>
           </div>

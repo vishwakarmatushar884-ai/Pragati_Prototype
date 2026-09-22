@@ -2,16 +2,12 @@ import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
 import { Navbar } from './Navbar';
-import { DemoModeBanner } from '../components/common/DemoModeBanner';
 
 export const MainLayout: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
 
   return (
     <div className="min-h-screen bg-slate-950 flex flex-col">
-      {/* Top Demo Banner */}
-      <DemoModeBanner />
-
       {/* Mobile Backdrop */}
       {isSidebarOpen && (
         <div

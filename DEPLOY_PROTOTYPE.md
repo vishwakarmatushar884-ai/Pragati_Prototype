@@ -1,39 +1,63 @@
-# 🚀 Quick Deployment Guide: PRAGATI Standalone Prototype (Zero-Docker)
+# 🚀 Quick Deployment Guide: PRAGATI Platform (Zero-Docker)
 
-Deploy and host the **PRAGATI National Infrastructure Monitoring Platform** prototype instantly **without Docker, without databases, and without backend server setup**.
+Deploy and host the **PRAGATI National Infrastructure Monitoring Platform** instantly **without Docker, without databases, and without backend server setup**.
 
-The prototype runs 100% in the browser with **Interactive National Demo Data** (20 Government of India projects across States & Ministries, Leaflet GIS maps, EVM calculations, risk escalation, 6 demo roles, stateful issue management, and PDF report downloads).
+The frontend runs with **Interactive National Infrastructure Data** (20 Government of India projects across States & Ministries, Leaflet GIS maps, EVM calculations, risk escalation, role portals, stateful issue management, and PDF report downloads).
 
 ---
 
-## ⚡ Option 1: 1-Click Hosting on Vercel (Recommended - Free)
+## ⚡ Option 1: Hosting on Render (Recommended - Free)
 
-Vercel provides free global hosting with automatic HTTPS and instant updates.
+Render gives you free static site hosting with custom domains, automatic SSL, and continuous deployment from GitHub.
 
-### Method A: Via Vercel Web Dashboard (Easiest)
-1. Push your repository to **GitHub** or **GitLab**.
+### Method A: Via Render Blueprint (Automatic 1-Click Setup)
+We have included a [`render.yaml`](file:///d:/pragati/render.yaml) blueprint in the repository:
+1. Push your project to **GitHub** or **GitLab**.
+2. Go to **[dashboard.render.com](https://dashboard.render.com/)** and log in.
+3. Click **"New +"** and select **"Blueprint"**.
+4. Connect your **`Pragati_Prototype`** repository.
+5. Render reads `render.yaml` and configures the build and rewrite routes automatically!
+6. Click **"Apply"** — Your site will be deployed and live on a `*.onrender.com` URL in ~1 minute.
+
+---
+
+### Method B: Via Render Web Dashboard (Manual Setup)
+If you prefer creating a **Static Site** directly in the Render dashboard:
+1. Go to **[dashboard.render.com](https://dashboard.render.com/)** -> Click **"New +"** -> Select **"Static Site"**.
+2. Connect your Git repository.
+3. Configure the following settings:
+   - **Name**: `pragati-portal` (or any name you prefer)
+   - **Branch**: `main` (or `master`)
+   - **Root Directory**: `frontend`
+   - **Build Command**: `npm install && npm run build`
+   - **Publish Directory**: `dist`
+4. Under **"Redirects/Rewrites"** (Scroll down on the settings page):
+   - Click **"Add Rule"**
+   - **Source**: `/*`
+   - **Destination**: `/index.html`
+   - **Action**: `Rewrite`
+5. Click **"Create Static Site"**.
+   > Your application is deployed and live for free!
+
+---
+
+## ⚡ Option 2: 1-Click Hosting on Vercel (Free)
+
+1. Push your repository to **GitHub**.
 2. Go to [https://vercel.com/new](https://vercel.com/new) and log in.
 3. Import your **`Pragati_Prototype`** repository.
-4. Set the following build settings:
+4. Set build settings:
    - **Framework Preset**: `Vite`
-   - **Root Directory**: `frontend` (or leave as root `/`)
+   - **Root Directory**: `frontend`
    - **Build Command**: `npm run build`
    - **Output Directory**: `dist`
 5. Click **Deploy**!
-   > Your prototype is live at `https://your-project.vercel.app` in under 60 seconds!
-
-### Method B: Via Vercel CLI
-```bash
-npm install -g vercel
-cd frontend
-vercel
-```
 
 ---
 
-## ⚡ Option 2: 1-Click Hosting on Netlify (Free)
+## ⚡ Option 3: 1-Click Hosting on Netlify (Free)
 
-### Method A: Drag & Drop (No Git required!)
+### Method A: Drag & Drop (No Git required)
 1. Build the production bundle locally:
    ```bash
    cd frontend
@@ -41,36 +65,17 @@ vercel
    ```
 2. Open [https://app.netlify.com/drop](https://app.netlify.com/drop).
 3. Drag and drop the **`frontend/dist`** folder into the browser window.
-4. Your prototype is instantly live with a free `.netlify.app` domain!
 
 ### Method B: Via Netlify Git Connect
 1. Connect your GitHub repository to Netlify.
-2. Set **Base directory** to `frontend`.
-3. Set **Build command** to `npm run build`.
-4. Set **Publish directory** to `frontend/dist`.
+2. Set **Base directory**: `frontend`.
+3. Set **Build command**: `npm run build`.
+4. Set **Publish directory**: `frontend/dist`.
 5. Click **Deploy Site**.
 
 ---
 
-## ⚡ Option 3: GitHub Pages (Free)
-
-1. In `frontend/package.json`, add:
-   ```json
-   "homepage": "https://<your-username>.github.io/<repo-name>"
-   ```
-2. Build and deploy using `gh-pages`:
-   ```bash
-   cd frontend
-   npm install --save-dev gh-pages
-   npm run build
-   npx gh-pages -d dist
-   ```
-
----
-
 ## 💻 Option 4: Run Locally Without Docker
-
-You can run the prototype locally on your computer with a single command:
 
 ### Windows:
 Double-click **`start-prototype.bat`** (or run in terminal):
@@ -88,38 +93,27 @@ Then open **`http://localhost:5173`** in your browser.
 
 ---
 
-## 👥 Demo Accounts for Evaluation
+## 👥 Authorized Roles for Portal Evaluation
 
-You can log in or switch roles on any page with 1 click:
+You can sign in directly with 1-click on the login screen or switch roles anytime using the top navigation bar:
 
-| Role | Name & Designation | Demo Email | Password |
-| :--- | :--- | :--- | :--- |
-| **Super Admin** | Shri Rajesh Verma, IAS (Chief PMO Officer) | `admin@pragati.demo` | `Demo@123` |
-| **Ministry Admin** | Dr. Sunita Deshmukh (Joint Secretary MORTH) | `ministry@pragati.demo` | `Demo@123` |
-| **Project Manager** | Vikramaditya Rao (Chief GM, NHAI) | `manager@pragati.demo` | `Demo@123` |
-| **Field Officer** | Ananya Sharma (Senior Field Engineer) | `field@pragati.demo` | `Demo@123` |
-| **Auditor** | K. S. Narayanan (Principal Auditor, CAG) | `auditor@pragati.demo` | `Demo@123` |
-| **Viewer** | Public Observer / Stakeholder | `viewer@pragati.demo` | `Demo@123` |
-
----
-
-## 🔄 Interactive Features in Prototype Mode
-
-- **Full Project Portfolio**: 20 authentic mega-projects (Atal Tunnel, Chenab Rail Bridge, Khavda Solar, Rishikesh Tunnel, etc.) with real GPS coordinates, budgets (₹ Cr), and risk tiers.
-- **National GIS Map**: Real-time Leaflet map visualization of project clusters and state-by-state risk heatmaps.
-- **Stateful Edits**: Updating progress, filing field issues, acknowledging alerts, and modifying thresholds persist in your browser's `localStorage`.
-- **1-Click Reset**: Click **"Reset Data"** in the top banner at any time to restore the clean Government of India demo dataset.
-- **Executive Reports**: Generate and download printable PDF / CSV summary reports instantly.
+| Role | Name & Title | Authorized Email |
+| :--- | :--- | :--- |
+| **Super Admin** | Shri Rajesh Verma, IAS (Chief PMO Officer) | `admin@pragati.demo` |
+| **Ministry Admin** | Dr. Sunita Deshmukh (Joint Secretary MORTH) | `ministry@pragati.demo` |
+| **Project Manager** | Vikramaditya Rao (Chief GM, NHAI) | `manager@pragati.demo` |
+| **Field Officer** | Ananya Sharma (Senior Field Engineer) | `field@pragati.demo` |
+| **Auditor** | K. S. Narayanan (Principal Auditor, CAG) | `auditor@pragati.demo` |
+| **Viewer** | Public Observer / Stakeholder | `viewer@pragati.demo` |
 
 ---
 
-## 🔮 Roadmap: Transitioning from Prototype to Full Backend
+## 🔮 Future Roadmap: Connecting Full Spring Boot + Database on Render
 
-When you are ready to connect a live Spring Boot backend + PostgreSQL database later:
-
-1. **Host Backend**: Deploy `backend/` to Render / Railway / AWS / GCP (e.g. `mvn clean package` -> Java 17 JAR).
-2. **Connect Frontend**: Set the environment variable in your Vercel/Netlify dashboard:
+When you build the full backend later and want to host it on Render:
+1. Create a **Web Service** on Render for `backend/` (`mvn clean package` -> Docker or Java Native).
+2. Set the environment variable in your frontend static site on Render:
    ```env
-   VITE_API_URL=https://your-live-backend-domain.com/api
+   VITE_API_URL=https://your-pragati-backend.onrender.com/api
    ```
-3. The frontend will automatically detect the live backend and seamlessly switch from mock mode to live API mode!
+3. The frontend automatically switches to the live backend seamlessly!
